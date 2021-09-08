@@ -9,21 +9,36 @@
 </head>
 <body>
 <header>
-    <div id="top-score"> Top Scores:</div>
+    <ol id="top-scores"> Top Scores:</ol>
     <div id="timer">Time: </div>
     
 </header>
 
     <Section>
-        <h1 class="titles">Timed Quiz</h1>
-        <p class="introduction">
-            This quiz will include both multiple choice and fill in the blank questions. 
-            You will recieve 1 point for each question, so brush up on your JS and when you're ready press the Start Quiz button.
-        </p>
-        <div>
-            <button id= "startButton">Start Quiz</button>
+        <div class="content-box">
+            <h1 class="titles">Timed Quiz</h1>
+            <div id="questions-box" class="container">
+            This is a timed multiple choice quiz about the basics of Javascript. Press the Start Quiz button to begin.
+            </div>
+            <div id="end-form">
+                <h1>End Quiz</h1>
+                <div id="gameScore"></div>
+                <form action='/action_page.php'>
+                <label for='firstName'>First Name</label>
+                <input type="text" id='firstName'>
+                <input type="submit" id="save-score" value="Save Score">
+                </form>
+            </div>
+
+            <div>
+                <button>Start Quiz</button>
+            </div>
         </div>
     </Section>
+
+    
+
+
     <script src="./assets/js/javascript.js"></script>
     
 </body>
