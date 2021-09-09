@@ -49,7 +49,7 @@ header {
 }
 
 button{
-    width: 100px;
+    width: auto;
     background-color:blueviolet;
     color: white;
     border: 2px solid black;

@@ -1,31 +1,34 @@
 var timerCounter = document.getElementById('timer');
 var questionsBox = document.querySelector('#questions-box');
-var startBtn = document.querySelector('button');
+var startBtn = document.getElementById('startQuiz');
 var endForm = document.getElementById('end-form');
 var userScores = [];
-
+var playAgain = document.getElementById('playAgain');
 
 //array of objects with questions and answers
 var questions = [
     {
-        question: "Question One",
-        answers: ["one", "two", "three", "four"],
-        correctAnswer: "one",
+        question: "Which of the following is the correct syntax to redirect a url using JavaScript?",
+        answers: ["window.location='http://www.newlocation.com';", 
+                    "document.location='http://www.newlocation.com';",
+                    "browser.location='http://www.newlocation.com';",
+                    "navigator.location='http://www.newlocation.com';"],
+        correctAnswer: "window.location='http://www.newlocation.com';",
     },
     {
-        question: "Question Two",
-        answers: ["one", "two", "three", "four"],
-        correctAnswer: "two",
+        question: "Which built-in method adds one or more elements to the end of an array and returns the new length of the array?",
+        answers: ["last()", "push()", "put()", "None of the above."],
+        correctAnswer: "push()",
     },
     {
-        question: "Question Three",
-        answers: ["one", "two", "three", "four"],
-        correctAnswer: "three",
+        question: "Which built-in method reverses the order of the elements of an array?",
+        answers: ["changeOrder(order)", "sort(order)", "reverse()", "None of the above."],
+        correctAnswer: "reverse()",
     },
     {
-        question: "Question Four",
-        answers: ["one", "two", "three", "four"],
-        correctAnswer: "four",
+        question: "Which of the following function of Array object joins all elements of an array into a string?",
+        answers: ["concat()", "pop()", "map()", "join()"],
+        correctAnswer: "join()",
     },
 ];
 
@@ -77,7 +80,7 @@ questionIndex++;
         endQuiz();
     }
 
-    
+ 
     
 }
 
@@ -122,7 +125,7 @@ saveScoreBtn.addEventListener('click', function(event){
     scoreCounter = 0;
     userScores.push(userScore);
     localStorage.setItem("userScores", JSON.stringify(userScores));
-    console.log(scoreCounter);
+    console.log(userScore);
 
     postScore();
 
@@ -133,16 +136,33 @@ saveScoreBtn.addEventListener('click', function(event){
 function postScore() {
     var topScoresList = JSON.parse(localStorage.getItem("userScores"));
     console.log(topScoresList);
+
     for (var i = 0; i < topScoresList.length; i++){
         
      //extract information: both user & user score properties and place both in list item
+        const extractArray = topScoresList;
+        const [first] = extractArray;
+        console.log(first);
+
+        const extractObjects = first;
+        const {user, userScore} = extractObjects;
+        console.log(user, userScore);
+
         var newScore = document.createElement('li');
-        newScore.textContent = //storedString;  THIS IS NOT a thing anymore need to replace.
-        
+        newScore.textContent = user + " : " + userScore;
         document.getElementById("top-scores").appendChild(newScore);
+        
     }
 }
 
+function replay(event){
+    event.preventDefault();
+    location.reload();
+    postScore();
+}
 
 startBtn.addEventListener('click', timer);
 startBtn.addEventListener('click', startQuiz);
+playAgain.addEventListener('click', replay);
+
+postScore();
