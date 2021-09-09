@@ -2,6 +2,7 @@ var timerCounter = document.getElementById('timer');
 var questionsBox = document.querySelector('#questions-box');
 var startBtn = document.querySelector('button');
 var endForm = document.getElementById('end-form');
+var userScores = [];
 
 
 //array of objects with questions and answers
@@ -33,7 +34,6 @@ var questions = [
 var questionIndex = 0;
 var scoreCounter = 0;
 
-
 function startQuiz () {
     questionsBox.innerHTML = "";
     var questionDisplay = questions[questionIndex];
@@ -45,13 +45,16 @@ function startQuiz () {
     startBtn.style.display = 'none'
     //loops through questions and checks clicks for answers
     for (var i = 0; i < questionDisplay.answers.length; i++) {
-        var questionAnswer = document.createElement("button");
-        questionAnswer.addEventListener('click', function(){ 
-            if(questionDisplay.correctAnswer){
+        var questionAnswers = document.createElement("button");
+        // uses event.target.text content to listen for specific button clicks.
+        questionAnswers.addEventListener('click', function(event){
+            console.log(event.target.textContent);
+            //if statements compares correct answer with event target answer.
+            if(questionDisplay.correctAnswer === event.target.textContent){
                 scoreCounter++;
-                console.log(scoreCounter);
+                //console.log(scoreCounter);
                 localStorage.setItem('Score', scoreCounter);
-            } else{
+            } else {
                 timeRemaining-=10;
             }
 
@@ -60,11 +63,11 @@ function startQuiz () {
             }else{
                 endQuiz();
             }
-            
+            console.log(questionDisplay.correctAnswer);
         } )
 
-        questionAnswer.textContent = questionDisplay.answers[i];
-        questionsBox.appendChild(questionAnswer);
+        questionAnswers.textContent = questionDisplay.answers[i];
+        questionsBox.appendChild(questionAnswers);
         
     }
     
@@ -79,9 +82,8 @@ questionIndex++;
 }
 
 var gameScore = document.getElementById('gameScore');
-var saveScoreBtn = document.getElementById('save-score');
-var userName = document.getElementById('firstName');
-var newScores = document.getElementById('#top-scores');
+
+
 
 
 function endQuiz(){
@@ -90,13 +92,8 @@ function endQuiz(){
     timerCounter="0";
     gameScore.innerHTML = "Score: " + scoreCounter;
 
+    
 }
-
-function score(){
-    localStorage.setItem('Score', scoreCounter);
-    console.log(scoreCounter);
-}
-score();
 
 //timer function runs upon user pressing start quiz button
 var timeRemaining = 100;
@@ -112,7 +109,8 @@ function timer() {
     }, 1000);
 }
 
-
+var saveScoreBtn = document.getElementById('save-score');
+var userName = document.getElementById('firstName');
 
 saveScoreBtn.addEventListener('click', function(event){
     event.preventDefault();
@@ -121,22 +119,28 @@ saveScoreBtn.addEventListener('click', function(event){
         user: userName.value,
         userScore: scoreCounter,
     };
-
-    localStorage.setItem("userScore", JSON.stringify(userScore));
+    scoreCounter = 0;
+    userScores.push(userScore);
+    localStorage.setItem("userScores", JSON.stringify(userScores));
     console.log(scoreCounter);
+
     postScore();
 
 });
 
-var topScores = [];
+
 
 function postScore() {
-    //newScores.innerHTML = "";
-    var storedString = JSON.parse(localStorage.getItem("userScore"));
-    var newScore = document.createElement('li');
-    newScore.textContent = storedString;
-    //newScores.appendChild(newScore);
-
+    var topScoresList = JSON.parse(localStorage.getItem("userScores"));
+    console.log(topScoresList);
+    for (var i = 0; i < topScoresList.length; i++){
+        
+     //extract information: both user & user score properties and place both in list item
+        var newScore = document.createElement('li');
+        newScore.textContent = //storedString;  THIS IS NOT a thing anymore need to replace.
+        
+        document.getElementById("top-scores").appendChild(newScore);
+    }
 }
 
 
